@@ -1,14 +1,14 @@
 package supermark.code;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Comprobante {
 	private Integer id;
 	private Float total;
 	private Character tipo;
 	private Date fecha;
-	private ArrayList<Producto> produtos;
+	private HashMap<Integer, Detalle> detalles;
 	private Usuario destinatario;
 	
 	public Integer getId() {
@@ -36,11 +36,11 @@ public class Comprobante {
 		this.fecha = fecha;
 	}
 	
-	public ArrayList<Producto> getProdutos() {
-		return produtos;
+	public HashMap<Integer, Detalle> getDetalles() {
+		return detalles;
 	}
-	public void setProdutos(ArrayList<Producto> produtos) {
-		this.produtos = produtos;
+	public void setProdutos(HashMap<Integer, Detalle> detalles) {
+		this.detalles = detalles;
 	}
 	
 	public Usuario getDestinatario() {

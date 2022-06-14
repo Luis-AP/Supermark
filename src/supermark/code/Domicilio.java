@@ -1,7 +1,6 @@
 package supermark.code;
 
 public class Domicilio {
-	private String localidad;
 	private String calle;
 	private Integer numero;
 	private Integer depNumero;

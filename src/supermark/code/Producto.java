@@ -3,7 +3,7 @@ package supermark.code;
 import java.sql.Date;
 
 public class Producto {
-	protected Integer id;
+	private Integer id;
 	private String nombre;
 	private String marca;
 	private Date f_venc;
