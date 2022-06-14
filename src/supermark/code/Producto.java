@@ -3,14 +3,14 @@ package supermark.code;
 import java.sql.Date;
 
 public class Producto {
-	protected Integer id;
+	private Integer id;
 	private String nombre;
 	private String marca;
 	private Date f_venc;
 	private Double precio;
 	private Integer stock;
 	
-	public Producto(Integer id, String nombre, String marca, Date f_venc, Double precio, Integer stock) {
+	public Producto(Integer id, String nombre, String marca, Date f_venc,double precio, int stock) {
 		super();
 		this.id = id;
 		this.nombre = nombre;

@@ -31,11 +31,9 @@ public class Usuario {
 	public void setDni(Integer dni) {
 		this.dni = dni;
 	}
-	
 	public Domicilio getDomicilio() {
 		return domicilio;
 	}
-	
 	public void setDomicilio(Domicilio domicilio) {
 		this.domicilio = domicilio;
 	}
