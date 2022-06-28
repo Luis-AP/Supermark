@@ -7,10 +7,21 @@ public class Producto {
 	private String nombre;
 	private String marca;
 	private Date f_venc;
-	private Double precio;
+	private Float precio;
 	private Integer stock;
 	
-	public Producto(Integer id, String nombre, String marca, Date f_venc, Double precio, Integer stock) {
+	public Producto(Integer id) {
+		super();
+		this.id = id;
+	}
+	
+	public Producto(Integer id,Integer stock) {
+		super();
+		this.id = id;
+		this.stock = stock;
+	}
+	
+	public Producto(Integer id, String nombre, String marca, Date f_venc, Float precio, Integer stock) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -51,10 +62,16 @@ public class Producto {
 	public void setF_venc(Date f_venc) {
 		this.f_venc = f_venc;
 	}
-	public Double getPrecio() {
+	public Float getPrecio() {
 		return precio;
 	}
-	public void setPrecio(Double precio) {
+	public void setPrecio(Float precio) {
 		this.precio = precio;
+	}
+
+	@Override
+	public String toString() {
+		return "Producto [id=" + id + ", nombre=" + nombre + ", marca=" + marca + ", f_venc=" + f_venc + ", precio="
+				+ precio + ", stock=" + stock + "]";
 	}
 }
