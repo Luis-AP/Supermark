@@ -2,6 +2,7 @@ package com.supermark.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.supermark.models.Comprobante;
@@ -19,8 +20,8 @@ public class CRUDDetalle {
 		this.sql = "";
 	}
 	
-	public HashMap<Integer,Detalle> getLineasDetalle(Comprobante comp){
-		HashMap<Integer, Detalle> detalles = new HashMap<Integer, Detalle>();
+	public ArrayList<Detalle> getLineasDetalle(Comprobante comp){
+		ArrayList<Detalle> detalles = new ArrayList<Detalle>();
 		this.sql = "SELECT * FROM detalle WHERE id_comprobante ="+
 				comp.getId();
 		ResultSet rs;
@@ -32,7 +33,7 @@ public class CRUDDetalle {
 				count++;
 				Producto prod = cp.getProducto(rs.getInt("id_producto"));
 				Detalle linea = new Detalle(prod, rs.getInt("cantidad"));
-				detalles.put(count, linea);
+				detalles.add(linea);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

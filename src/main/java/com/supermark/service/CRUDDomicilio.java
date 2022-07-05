@@ -1,6 +1,9 @@
 package com.supermark.service;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import com.supermark.models.Domicilio;
 import com.supermark.models.Localidad;
@@ -29,8 +32,14 @@ public class CRUDDomicilio {
 				dom.getLocalidad().getId()+
 				")";
 		try {
-			int row = conexion.getStmt().executeUpdate(sql);
-			dom.setId(row);
+			PreparedStatement stmt = conexion.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			int filas = stmt.executeUpdate();
+			if(filas>0) {
+				ResultSet rs = stmt.getGeneratedKeys();
+				while(rs.next()) {
+					dom.setId(rs.getInt(1));
+				}
+			}
 			System.out.println("Domicilio registrado");
 		} catch (SQLException e) {
 			e.printStackTrace();

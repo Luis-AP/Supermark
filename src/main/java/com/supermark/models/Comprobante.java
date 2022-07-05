@@ -9,7 +9,7 @@ public class Comprobante {
 	private Float total;
 	private String tipo;
 	private Timestamp fecha;
-	private HashMap<Integer, Detalle> detalles;
+	private ArrayList<Detalle> detalles;
 	private Usuario destinatario;
 	private TarjetaCredito tarjeta;
 	private Descuento descuento;
@@ -18,11 +18,14 @@ public class Comprobante {
 		super();
 	}
 	
-	public Comprobante(String tipo, ArrayList<Detalle> detalles,
+	
+	public Comprobante(String tipo,ArrayList<Detalle> detalles,
 			Usuario destinatario, TarjetaCredito tarjeta) {
 		super();
+		System.out.println("Here");
 		this.tipo = tipo;
-		this.detalles = this.convertArrayListToHashMap(detalles);
+		this.fecha = new Timestamp(System.currentTimeMillis());
+		this.detalles = detalles;
 		this.destinatario = destinatario;
 		this.tarjeta = tarjeta;
 	}
@@ -32,23 +35,22 @@ public class Comprobante {
   
         HashMap<Integer, Detalle> hashMap = new HashMap<>();
   
-        for (Detalle det : list) {
-        	det.setId_comprobante(this.id);
-            hashMap.put(det.getId(), det);
+        for (int i=0;i<list.size();i++) {
+            hashMap.put(i, list.get(i));
         }
   
         return hashMap;
     }
 	
-	public Comprobante(String tipo, Timestamp fecha, HashMap<Integer, Detalle> detalles,
-			Usuario destinatario, TarjetaCredito tarjeta) {
-		super();
-		this.tipo = tipo;
-		this.fecha = fecha;
-		this.detalles = detalles;
-		this.destinatario = destinatario;
-		this.tarjeta = tarjeta;
-	}
+//	public Comprobante(String tipo, Timestamp fecha, HashMap<Integer, Detalle> detalles,
+//			Usuario destinatario, TarjetaCredito tarjeta) {
+//		super();
+//		this.tipo = tipo;
+//		this.fecha = fecha;
+//		this.detalles = detalles;
+//		this.destinatario = destinatario;
+//		this.tarjeta = tarjeta;
+//	}
 	
 	public Integer getId() {
 		return id;
@@ -75,11 +77,8 @@ public class Comprobante {
 		this.fecha = fecha;
 	}
 	
-	public HashMap<Integer, Detalle> getDetalles() {
+	public ArrayList<Detalle> getDetalles() {
 		return detalles;
-	}
-	public void setProdutos(HashMap<Integer, Detalle> detalles) {
-		this.detalles = detalles;
 	}
 	
 	public Usuario getDestinatario() {
@@ -94,10 +93,9 @@ public class Comprobante {
 	public void setDescuento(Descuento descuento) {
 		this.descuento = descuento;
 	}
-	public void setDetalles(HashMap<Integer, Detalle> detalles) {
+	public void setDetalles(ArrayList<Detalle> detalles) {
 		this.detalles = detalles;
 	}
-	
 	
 	public TarjetaCredito getTarjeta() {
 		return tarjeta;
@@ -109,8 +107,8 @@ public class Comprobante {
 	public String toString() {
 		String comprobante = "";
 		comprobante += "Comprobante [id=" + id + ", total=" + total + ", tipo=" + tipo + ", fecha=" + fecha + ", destinatario=" + destinatario + ", descuento=" + descuento + ", detalles={";
-		for(Integer clave:detalles.keySet()) {
-			comprobante += "\n Producto: "+detalles.get(clave).getProducto();
+		for(Detalle clave:detalles) {
+			comprobante += "\n Producto: "+clave.getProducto();
 		}
 		comprobante += "} ]";
 		return comprobante;

@@ -1,7 +1,9 @@
 package com.supermark.service;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -21,7 +23,7 @@ public class CRUDComprobante {
 	}
 	
 	public void registrarCompra(Comprobante comprobante) {
-		HashMap<Integer, Detalle> detalles = comprobante.getDetalles();
+		ArrayList<Detalle> detalles = comprobante.getDetalles();
 		this.sql = "INSERT INTO comprobante "+
 				"(tipo,fecha,id_usuario,id_tc) "+
 				"VALUE ('"+
@@ -30,8 +32,15 @@ public class CRUDComprobante {
 				comprobante.getDestinatario().getId()+","+
 				comprobante.getTarjeta().getNumero()+")";
 		try {
-			int row = conexion.getStmt().executeUpdate(sql);
-			agregarDetallesAComprobante(detalles,row);
+			PreparedStatement stmt = conexion.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			int rows = stmt.executeUpdate();
+			if(rows>0) {
+				conexion.setRs(stmt.getGeneratedKeys());
+				while(conexion.getRs().next()) {
+					comprobante.setId(conexion.getRs().getInt(1));
+				}
+			}
+			agregarDetallesAComprobante(detalles,comprobante.getId());
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}finally {
@@ -39,10 +48,12 @@ public class CRUDComprobante {
 		}
 	}
 	
-	private void agregarDetallesAComprobante(HashMap<Integer, Detalle> detalles,Integer id_comprobante) {
+	private void agregarDetallesAComprobante(ArrayList<Detalle> detalles,Integer id_comprobante) {
 		CRUDDetalle cd = new CRUDDetalle();
 		CRUDProducto cp = new CRUDProducto();
-		for(Detalle det:detalles.values()) {
+		for(Detalle det:detalles) {
+			det.setId_comprobante(id_comprobante);
+			det.getProducto().setStock(cp.getStockActual(det.getProducto()));
 			if(det.getProducto().getStock()-det.getCantidad()>=0) {
 				//Insertamos una fila en la tabla Detalle
 				cd.registrarDetalle(det);

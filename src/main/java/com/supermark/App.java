@@ -2,6 +2,9 @@ package com.supermark;
 
 import static spark.Spark.port;
 import static spark.Spark.post;
+
+import java.sql.Timestamp;
+
 import static spark.Spark.get;
 
 import com.supermark.StandardResponse;
@@ -16,12 +19,6 @@ public class App {
 
 	public static void main(String[] args) {
 		port(8080);
-//		Gson mapper = new Gson();
-//		ArrayList<Persona> personas = new ArrayList<Persona>();
-//		personas.add(new Persona("Luis","Parada","lap18958@gmail",24));
-//		personas.add(new Persona("Ana","Juarez","anita@gmail.com",21));
-//		personas.add(new Persona("Sonia","Lopez","sonilop@gmail.com",30));
-//		
 		get("/user",(request,response)->{
 			response.type("application/json");
 			//response.header("Access-Control-Allow-Origin", "*");
@@ -45,8 +42,8 @@ public class App {
 		    					"El usuario no figura en el sistema")
 		    					);
 		    }
-			
 		});
+		
 		post("/registrar",(request,response)->{
 			response.type("application/json");
 			//response.header("Access-Control-Allow-Origin", "*");
@@ -103,10 +100,10 @@ public class App {
 			response.type("application/json");
 			response.header("Access-Control-Allow-Origin", "*");
 			Gson mapper = new Gson();
+			System.out.println("Here1");
 			//Gson mapper = new GsonBuilder().setDateFormat("yyyy/MM/dd").create();
 			Comprobante comp = mapper.fromJson(request.body(),Comprobante.class);
-			System.out.println("Here");
-			System.out.println(comp);
+			comp.setFecha(new Timestamp(System.currentTimeMillis()));
 			
 			CRUDComprobante cc = new CRUDComprobante();
 			cc.registrarCompra(comp);

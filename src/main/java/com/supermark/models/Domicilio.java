@@ -21,6 +21,13 @@ public class Domicilio {
 		this.piso = piso;
 	}
 	
+	public Domicilio(String calle, Integer numero,Localidad localidad) {
+		super();
+		this.calle = calle;
+		this.numero = numero;
+		this.localidad = localidad;
+	}
+	
 	public Domicilio(Integer id, String calle, Integer numero, Integer depNumero, Integer piso,Localidad localidad) {
 		super();
 		this.id = id;

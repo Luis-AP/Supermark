@@ -20,7 +20,8 @@ public class CRUDUsuario {
 	
 	public boolean registrar(Usuario usuario) {//-->Registrar un usuario
 		CRUDDomicilio cdom = new CRUDDomicilio();
-		usuario.setDomicilio(cdom.register(usuario.getDomicilio()));
+		Domicilio dom = cdom.register(usuario.getDomicilio());
+		usuario.setDomicilio(dom);
 		this.sql = "INSERT INTO usuario "+
 				"(nombre,apellido,email,dni,contrasenia,id_domicilio) "+
 				"VALUE ('"+
