@@ -22,7 +22,7 @@ public class CRUDUsuario {
 		CRUDDomicilio cdom = new CRUDDomicilio();
 		Domicilio dom = cdom.register(usuario.getDomicilio());
 		usuario.setDomicilio(dom);
-		this.sql = "INSERT INTO usuario "+
+		this.sql = "INSERT INTO Usuario "+
 				"(nombre,apellido,email,dni,contrasenia,id_domicilio) "+
 				"VALUE ('"+
 				usuario.getNombre()+"','"+

@@ -22,7 +22,7 @@ public class CRUDDomicilio {
 	public Domicilio register(Domicilio dom) {
 //		CRUDLocalidad cl = new CRUDLocalidad();
 //		Localidad localidad = cl.getLocalidad();
-		this.sql = "INSERT INTO domicilio "+
+		this.sql = "INSERT INTO Domicilio "+
 				"(calle1,numero,depNumero,piso,id_localidad) "+
 				"VALUE ('"+
 				dom.getCalle()+"',"+

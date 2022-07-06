@@ -1,15 +1,10 @@
 package com.supermark;
 
-import static spark.Spark.port;
-import static spark.Spark.post;
+import static spark.Spark.*;
 
 import java.sql.Timestamp;
-
-import static spark.Spark.get;
-
-import com.supermark.StandardResponse;
-import com.supermark.StatusResponse;
 import com.supermark.models.*;
+import com.supermark.service.CRUDCarrito;
 import com.supermark.service.CRUDComprobante;
 import com.supermark.service.CRUDUsuario;
 import com.google.gson.Gson;
@@ -74,6 +69,29 @@ public class App {
 			    					"Ocurrio un error inesperado")
 			    					);
 			    }
+			}
+		});
+		
+		post("/seleccionar",(request,response)->{
+			response.type("application/json");
+			response.header("Access-Control-Allow-Origin", "*");
+			Gson mapper = new Gson();
+			Carrito addition = mapper.fromJson(request.body(), Carrito.class);
+			
+			CRUDCarrito ccarr = new CRUDCarrito();
+			
+			if(ccarr.agregar(addition)) {
+				return mapper
+						.toJson(new StandardResponse(
+									StatusResponse.SUCCESS,
+									"Producto agregado al carrito"
+								));
+			}else {
+				return mapper
+						.toJson(new StandardResponse(
+									StatusResponse.ERROR,
+									"Hubo un inconveniente agregado el producto"
+								));
 			}
 		});
 		

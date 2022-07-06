@@ -18,7 +18,7 @@ public class CRUDProducto {
 	
 	public Producto getProducto(Integer id) {
 		Producto prod = null;
-		this.sql = "SELECT * FROM producto WHERE id ="+id;
+		this.sql = "SELECT * FROM Producto WHERE id ="+id;
 		try {
 			ResultSet rs = conexion.getStmt().executeQuery(sql);
 			while (rs.next()) {
@@ -38,9 +38,9 @@ public class CRUDProducto {
 	}
 	
 	public void actualizarStock(Producto producto,int cantidad) {
-		this.sql = "UPDATE producto SET producto.stock="+
+		this.sql = "UPDATE Producto SET Producto.stock="+
 				(producto.getStock()+cantidad)+
-				" WHERE producto.id="+producto.getId();
+				" WHERE id="+producto.getId();
 		try {
 			conexion.getStmt().executeUpdate(sql);
 		} catch (SQLException e) {
@@ -52,8 +52,7 @@ public class CRUDProducto {
 	
 	public int getStockActual(Producto producto) {
 		int stockActual = 0;
-		this.sql = "SELECT stock FROM producto "+
-				" WHERE producto.id="+producto.getId();
+		this.sql = "SELECT stock FROM Producto WHERE id="+producto.getId();
 		try {
 			conexion.setRs(conexion.getStmt().executeQuery(sql));
 			int count = 0;

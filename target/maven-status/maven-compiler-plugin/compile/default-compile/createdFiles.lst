@@ -1,0 +1,5 @@
+com/supermark/models/Domicilio.class
+com/supermark/service/Conexion.class
+com/supermark/models/Localidad.class
+com/supermark/service/CRUDUsuario.class
+com/supermark/models/Usuario.class

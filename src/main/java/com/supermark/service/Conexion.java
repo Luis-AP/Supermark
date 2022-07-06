@@ -18,7 +18,7 @@ public class Conexion {
 	private ResultSet rs = null;//Conjunto de resultados
 	
 	public Conexion(String db) {
-		this.DB_URL += db;
+		this.DB_URL += "Supermark";
 	}
 	
 	public void connect() {

@@ -2,7 +2,6 @@ package com.supermark.models;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Comprobante {
 	private Integer id;
@@ -18,29 +17,24 @@ public class Comprobante {
 		super();
 	}
 	
+	public Comprobante(String tipo,Usuario destinatario,
+			TarjetaCredito tarjeta) {
+		super();
+		this.tipo = tipo;
+		this.fecha = new Timestamp(System.currentTimeMillis());
+		this.destinatario = destinatario;
+		this.tarjeta = tarjeta;
+	}
 	
 	public Comprobante(String tipo,ArrayList<Detalle> detalles,
 			Usuario destinatario, TarjetaCredito tarjeta) {
 		super();
-		System.out.println("Here");
 		this.tipo = tipo;
 		this.fecha = new Timestamp(System.currentTimeMillis());
 		this.detalles = detalles;
 		this.destinatario = destinatario;
 		this.tarjeta = tarjeta;
 	}
-	
-	private HashMap<Integer, Detalle>
-    convertArrayListToHashMap(ArrayList<Detalle> list){
-  
-        HashMap<Integer, Detalle> hashMap = new HashMap<>();
-  
-        for (int i=0;i<list.size();i++) {
-            hashMap.put(i, list.get(i));
-        }
-  
-        return hashMap;
-    }
 	
 //	public Comprobante(String tipo, Timestamp fecha, HashMap<Integer, Detalle> detalles,
 //			Usuario destinatario, TarjetaCredito tarjeta) {
