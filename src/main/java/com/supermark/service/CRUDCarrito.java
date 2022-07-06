@@ -1,5 +1,6 @@
 package com.supermark.service;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -25,8 +26,8 @@ public class CRUDCarrito {
 				carrito.getCantidad()+")";
 		boolean resultado = false;
 		try {
-			int rows = conexion.getStmt().executeUpdate(sql);
-			if(rows>0){
+			int filas = conexion.getStmt().executeUpdate(sql);
+			if(filas>0){
 				resultado = true;
 			}
 			System.out.println("Producto agregado al Carrito");
@@ -39,15 +40,19 @@ public class CRUDCarrito {
 	public ArrayList<Detalle> getListado(Usuario usuario){
 		ArrayList<Detalle> detalles = new ArrayList<Detalle>();
 		
-		this.sql = "SELECT id_producto,cantidad FROM Carrito "+
+		this.sql = "SELECT Carrito.id_producto,Carrito.cantidad,Producto.precio FROM Carrito "+
+					"JOIN producto ON producto.id = carrito.id_producto "+
 					"WHERE id_usuario = "+usuario.getId();
 		
 		try {
-			conexion.setRs(conexion.getStmt().executeQuery(sql));;
-			while(conexion.getRs().next()) {
+			ResultSet rs = conexion.getStmt().executeQuery(sql);
+			while(rs.next()) {
+				int id_producto = rs.getInt("id_producto");
+				int cantidad = rs.getInt("cantidad");
+				float precio = rs.getFloat("precio");
 				detalles.add(new Detalle(
-							new Producto(conexion.getRs().getInt("id_producto")),
-							conexion.getRs().getInt("cantidad")
+							new Producto(id_producto,precio),
+							cantidad
 						));
 			}	
 		} catch (SQLException e) {

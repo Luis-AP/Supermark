@@ -15,6 +15,12 @@ public class Producto {
 		this.id = id;
 	}
 	
+	public Producto(Integer id,Float precio) {
+		super();
+		this.id = id;
+		this.precio = precio;
+	}
+	
 	public Producto(Integer id,Integer stock) {
 		super();
 		this.id = id;

@@ -18,6 +18,21 @@ public class CRUDUsuario {
 		this.sql = "";
 	}
 	
+	public boolean esAdmin(Usuario usuario) {
+		this.sql = "SELECT rol FROM Usuario WHERE id="+usuario.getId();
+		boolean resultado = false;
+		try {
+			ResultSet rs = conexion.getStmt().executeQuery(sql);
+			if(rs.getInt("rol")==1) {//si es admin
+				resultado = true;
+			}
+			System.out.println("Usuario registrado");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
 	public boolean registrar(Usuario usuario) {//-->Registrar un usuario
 		CRUDDomicilio cdom = new CRUDDomicilio();
 		Domicilio dom = cdom.register(usuario.getDomicilio());

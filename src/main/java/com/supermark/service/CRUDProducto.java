@@ -38,7 +38,7 @@ public class CRUDProducto {
 	}
 	
 	public void actualizarStock(Producto producto,int cantidad) {
-		this.sql = "UPDATE Producto SET Producto.stock="+
+		this.sql = "UPDATE Producto SET stock="+
 				(producto.getStock()+cantidad)+
 				" WHERE id="+producto.getId();
 		try {

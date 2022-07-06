@@ -21,41 +21,53 @@ public class CRUDComprobante {
 		this.sql = "";
 	}
 	
-	public void registrarCompra(Comprobante comprobante) {
+	public boolean registrarCompra(Comprobante comprobante) {
+		boolean resultado = false;
 		CRUDCarrito ccarr = new CRUDCarrito();
 		ArrayList<Detalle> detalles = ccarr.getListado(comprobante.getDestinatario());
 		comprobante.setDetalles(detalles);
+		float total = 0;
+		for(Detalle detalle:detalles) {
+			total += detalle.getProducto().getPrecio()*detalle.getCantidad();
+		}
+		System.out.println(total);
+		
 		this.sql = "INSERT INTO Comprobante "+
-				"(tipo,fecha,id_usuario,id_tc) "+
+				"(tipo,fecha,id_usuario,id_tc,total) "+
 				"VALUE ('"+
 				comprobante.getTipo()+"','"+
 				comprobante.getFecha()+"',"+
 				comprobante.getDestinatario().getId()+","+
-				comprobante.getTarjeta().getNumero()+")";
+				comprobante.getTarjeta().getNumero()+","+
+				total+")";
 		try {
 			PreparedStatement stmt = conexion.getConn().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			int rows = stmt.executeUpdate();
-			if(rows>0) {
-				conexion.setRs(stmt.getGeneratedKeys());
-				while(conexion.getRs().next()) {
-					comprobante.setId(conexion.getRs().getInt(1));
+			int filas = stmt.executeUpdate();
+			if(filas>0) {
+				resultado = true;
+				ResultSet rs = stmt.getGeneratedKeys();
+				while(rs.next()) {//Asignamos al comprobante el id generado en MySQL
+					comprobante.setId(rs.getInt(1));
 				}
 			}
 			agregarDetallesAComprobante(detalles,comprobante.getId());
 			ccarr.vaciar(comprobante.getDestinatario());
+			System.out.println("Comprobante registrado");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
-			System.out.println("Comprobante registrado");
 		}
+		return resultado;
 	}
 	
 	private void agregarDetallesAComprobante(ArrayList<Detalle> detalles,Integer id_comprobante) {
 		CRUDDetalle cd = new CRUDDetalle();
 		CRUDProducto cp = new CRUDProducto();
 		for(Detalle det:detalles) {
-			det.getProducto().setStock(cp.getStockActual(det.getProducto()));
-			if(det.getProducto().getStock()-det.getCantidad()>=0) {
+			int stockActual = cp.getStockActual(det.getProducto());
+			det.getProducto().setStock(stockActual);
+			int stockProducto = det.getProducto().getStock();
+			int cantidadProducto = det.getCantidad();
+			if(stockProducto-cantidadProducto>=0) {
 				//Insertamos una fila en la tabla Detalle
 				cd.registrarDetalle(det,id_comprobante);
 				//Actualizacion sobre la tabla Producto

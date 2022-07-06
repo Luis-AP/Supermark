@@ -11,7 +11,6 @@ public class Comprobante {
 	private ArrayList<Detalle> detalles;
 	private Usuario destinatario;
 	private TarjetaCredito tarjeta;
-	private Descuento descuento;
 	
 	public Comprobante() {
 		super();
@@ -81,12 +80,7 @@ public class Comprobante {
 	public void setDestinatario(Usuario destinatario) {
 		this.destinatario = destinatario;
 	}
-	public Descuento getDescuento() {
-		return descuento;
-	}
-	public void setDescuento(Descuento descuento) {
-		this.descuento = descuento;
-	}
+	
 	public void setDetalles(ArrayList<Detalle> detalles) {
 		this.detalles = detalles;
 	}
@@ -100,7 +94,7 @@ public class Comprobante {
 	@Override
 	public String toString() {
 		String comprobante = "";
-		comprobante += "Comprobante [id=" + id + ", total=" + total + ", tipo=" + tipo + ", fecha=" + fecha + ", destinatario=" + destinatario + ", descuento=" + descuento + ", detalles={";
+		comprobante += "Comprobante [id=" + id + ", total=" + total + ", tipo=" + tipo + ", fecha=" + fecha + ", destinatario=" + destinatario +", detalles={";
 		for(Detalle clave:detalles) {
 			comprobante += "\n Producto: "+clave.getProducto();
 		}
