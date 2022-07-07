@@ -43,10 +43,9 @@ public class CRUDProducto {
 				" WHERE id="+producto.getId();
 		try {
 			conexion.getStmt().executeUpdate(sql);
+			System.out.println("Stock Actualizado");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}finally {
-			System.out.println("Stock Actualizado");
 		}
 	}
 	

@@ -17,30 +17,36 @@ public class CRUDCarrito {
 		this.sql = "";
 	}
 	
-	public boolean agregar(Carrito carrito) {//-->Registrar un usuario
-		this.sql = "INSERT INTO Carrito "+
-				"(id_usuario,id_producto,cantidad) "+
-				"VALUE ("+
-				carrito.getUsuario().getId()+","+
-				carrito.getProducto().getId()+","+
-				carrito.getCantidad()+")";
+	public boolean agregar(Carrito carrito) {//-->Registrar un producto en el carrito
 		boolean resultado = false;
-		try {
-			int filas = conexion.getStmt().executeUpdate(sql);
-			if(filas>0){
-				resultado = true;
+		if(getListado(carrito.getUsuario()).size()<30) {
+			this.sql = "INSERT INTO Carrito "+
+					"(id_usuario,id_producto,cantidad) "+
+					"VALUE ("+
+					carrito.getUsuario().getId()+","+
+					carrito.getProducto().getId()+","+
+					carrito.getCantidad()+")";
+			
+			try {
+				int filas = conexion.getStmt().executeUpdate(sql);
+				if(filas>0){
+					resultado = true;
+				}
+				System.out.println("Producto agregado al Carrito");
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-			System.out.println("Producto agregado al Carrito");
-		} catch (SQLException e) {
-			e.printStackTrace();
+		}else {
+			System.out.println("El carrito esta lleno");
 		}
+		
 		return resultado;
 	}
 	
 	public ArrayList<Detalle> getListado(Usuario usuario){
 		ArrayList<Detalle> detalles = new ArrayList<Detalle>();
 		
-		this.sql = "SELECT Carrito.id_producto,Carrito.cantidad,Producto.precio FROM Carrito "+
+		this.sql = "SELECT Producto.nombre,Carrito.id_producto,Carrito.cantidad,Producto.precio FROM Carrito "+
 					"JOIN producto ON producto.id = carrito.id_producto "+
 					"WHERE id_usuario = "+usuario.getId();
 		
@@ -49,9 +55,10 @@ public class CRUDCarrito {
 			while(rs.next()) {
 				int id_producto = rs.getInt("id_producto");
 				int cantidad = rs.getInt("cantidad");
+				String nombre = rs.getString("nombre");
 				float precio = rs.getFloat("precio");
 				detalles.add(new Detalle(
-							new Producto(id_producto,precio),
+							new Producto(id_producto,nombre,precio),
 							cantidad
 						));
 			}	
@@ -67,8 +74,8 @@ public class CRUDCarrito {
 		this.sql = "DELETE FROM Carrito WHERE id_usuario = "+usuario.getId();
 		
 		try {
-			int rows = conexion.getStmt().executeUpdate(sql);
-			if(rows>0) {
+			int filas = conexion.getStmt().executeUpdate(sql);
+			if(filas>0) {
 				resultado = true;
 			}
 		} catch (SQLException e) {

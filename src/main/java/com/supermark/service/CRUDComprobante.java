@@ -22,7 +22,7 @@ public class CRUDComprobante {
 	}
 	
 	public boolean registrarCompra(Comprobante comprobante) {
-		boolean resultado = false;
+		boolean resultado = false;//Si se ejecuta correctamente la consulta SQL
 		CRUDCarrito ccarr = new CRUDCarrito();
 		ArrayList<Detalle> detalles = ccarr.getListado(comprobante.getDestinatario());
 		comprobante.setDetalles(detalles);
@@ -30,7 +30,9 @@ public class CRUDComprobante {
 		for(Detalle detalle:detalles) {
 			total += detalle.getProducto().getPrecio()*detalle.getCantidad();
 		}
-		System.out.println(total);
+//		CRUDDescuento cdesc = new CRUDDescuento();
+//		float descuento = cdesc.consultar(id);
+//		total = total*descuento;
 		
 		this.sql = "INSERT INTO Comprobante "+
 				"(tipo,fecha,id_usuario,id_tc,total) "+
@@ -65,14 +67,15 @@ public class CRUDComprobante {
 		for(Detalle det:detalles) {
 			int stockActual = cp.getStockActual(det.getProducto());
 			det.getProducto().setStock(stockActual);
-			int stockProducto = det.getProducto().getStock();
+			
 			int cantidadProducto = det.getCantidad();
-			if(stockProducto-cantidadProducto>=0) {
+			
+			if(stockActual-cantidadProducto>=0) {
 				//Insertamos una fila en la tabla Detalle
 				cd.registrarDetalle(det,id_comprobante);
 				//Actualizacion sobre la tabla Producto
 				//cp.getStockActual(det.getProducto());
-				cp.actualizarStock(det.getProducto(), -det.getCantidad());
+				cp.actualizarStock(det.getProducto(), -cantidadProducto);
 			}else {
 				System.out.println("No se dispone del stock necesario para realizar esta venta");
 			}

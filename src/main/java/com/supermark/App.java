@@ -117,14 +117,12 @@ public class App {
 			}
 		});
 		
-		get("/micarrito/:name",(request,response)->{
-			response.type("application/json");
-			response.header("Access-Control-Allow-Origin", "*");
+		get("/micarrito/:id",(request,response)->{
 			Gson mapper = new Gson();
 			
 			CRUDCarrito ccarr = new CRUDCarrito();
 			ArrayList<Detalle> miCarrito = ccarr.getListado(
-						new Usuario(Integer.valueOf(request.params(":name")))
+						new Usuario(Integer.valueOf(request.params(":id")))
 						);
 			
 			if(miCarrito!=null && miCarrito.size()>0) {
@@ -143,11 +141,10 @@ public class App {
 		});
 		
 		post("/comprar",(request,response)->{
-			response.type("application/json");
-			//response.header("Access-Control-Allow-Origin", "*");
 			Gson mapper = new Gson();
-			//Gson mapper = new GsonBuilder().setDateFormat("yyyy/MM/dd").create();
+			
 			Comprobante comp = mapper.fromJson(request.body(),Comprobante.class);
+			
 			comp.setFecha(new Timestamp(System.currentTimeMillis()));
 			
 			CRUDComprobante cc = new CRUDComprobante();
@@ -178,7 +175,7 @@ public class App {
 				CRUDProducto cp= new CRUDProducto();
 				
 				//Descomentar
-				//boolean resultado = cp.cargarProducto(producto);
+				//resultado = cp.cargarProducto(producto);
 				
 				if(resultado==true) {
 			    	return mapper

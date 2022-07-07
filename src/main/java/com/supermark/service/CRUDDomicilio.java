@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.supermark.models.Domicilio;
-import com.supermark.models.Localidad;
 
 public class CRUDDomicilio {
 	private Conexion conexion;

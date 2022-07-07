@@ -21,6 +21,13 @@ public class Producto {
 		this.precio = precio;
 	}
 	
+	public Producto(Integer id,String nombre,Float precio) {
+		super();
+		this.id = id;
+		this.nombre = nombre;
+		this.precio = precio;
+	}
+	
 	public Producto(Integer id,Integer stock) {
 		super();
 		this.id = id;

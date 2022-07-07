@@ -2,7 +2,6 @@ package com.supermark.service;
 
 import java.sql.SQLException;
 
-import com.supermark.models.Domicilio;
 import com.supermark.models.Localidad;
 
 public class CRUDLocalidad {
